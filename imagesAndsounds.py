@@ -1,6 +1,6 @@
 import pygame
 
-filepath = 'C:/Users/Lenovo/Documents/pygame/sprite/'
+filepath = '..//sprite/'
 
 class ImageResources:
     sprite_xpos = 0
