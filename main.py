@@ -65,6 +65,7 @@ def drawImage():
 
 running = True
 while 1:
+    #초당 지정된 프레임 횟수동안 동작
     dt = clock.tick(60)
 
     set_speed = 3
@@ -91,9 +92,12 @@ while 1:
             if event.key == pygame.K_UP or event.key == pygame.K_DOWN:
                 ypos = 0
 
+    #게임 데이터 업데이트
+    
     player.sprite_xpos += xpos
     player.sprite_ypos += ypos
 
+    #화면 밖으로 못나가게 방지
     if player.sprite_xpos < 0:
         player.sprite_xpos = 0
     elif player.sprite_xpos > screen.get_width()-player.sprite_width:
@@ -121,6 +125,7 @@ while 1:
 
     drawImage()
 
+    #카운터
     elapsed_time = (pygame.time.get_ticks()) / 1000
     timer = game_font.render("time : "+str(int(elapsed_time)),True,bg_colors.bg_white)
     screen.blit(timer,(screen.get_width()-timer.get_width()-10,10))
