@@ -2,16 +2,15 @@
 import pygame
 import random
 import bg_colors
-from imagesAndsounds import ImageResources
+from images import ImageResources
 
 pygame.init()
 
 #화면 크기
 screen = pygame.display.set_mode((304,512))
 
-filepath = 'sprite/'
 #아이콘 설정
-icon = ImageResources(filepath+'enemy.png')
+icon = ImageResources('enemy.png')
 #pygame.display.set_icon(icon.sprite)
 
 #FPS
@@ -21,12 +20,12 @@ clock = pygame.time.Clock()
 pygame.display.set_caption("피하기 게임")
 
 #게임 배경 및 이미지
-background = pygame.image.load(filepath+'astro.png')
+background = ImageResources('astro.png')
 
-player = ImageResources(filepath+'agent.png')
+player = ImageResources('agent.png')
 player.setPosition(screen.get_width()/2-(player.sprite_width),screen.get_height() - player.sprite_height - 10)
 
-enemy = ImageResources(filepath+'rocket.png')
+enemy = ImageResources('rocket.png')
 enemy.setPosition(random.randint(0,screen.get_width() - enemy.sprite_width),10)
 
 
@@ -34,8 +33,6 @@ enemy.setPosition(random.randint(0,screen.get_width() - enemy.sprite_width),10)
 game_font = pygame.font.Font(None, 40)
 
 total_time = 10
-
-start_tick = pygame.time.get_ticks()
 
 def limit(left,top,x1,x2,y1,y2):
     if left < x1:
@@ -59,7 +56,7 @@ falling = 3
 #이미지 그리기
 def drawImage():
     screen.fill(bg_colors.bg_azure)
-    screen.blit(background, (0,0))
+    screen.blit(background.sprite, (0,0))
     screen.blit(player.sprite, player.getPosition())
     screen.blit(enemy.sprite, enemy.getPosition())
 
@@ -85,12 +82,16 @@ while 1:
                 ypos -= set_speed
             elif event.key == pygame.K_DOWN:
                 ypos += set_speed
+            
+            if event.key == pygame.CONTROLLER_BUTTON_A:
+                print("A Button")
         #키를 떼었을 때
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
                 xpos = 0
             if event.key == pygame.K_UP or event.key == pygame.K_DOWN:
                 ypos = 0
+            
 
     #게임 데이터 업데이트
     
