@@ -2,7 +2,8 @@
 import pygame
 import random
 import bg_colors
-from images import ImageResources
+from resources import ImageResources
+from resources import BackgoundMusic
 
 pygame.init()
 
@@ -19,6 +20,9 @@ clock = pygame.time.Clock()
 #화면 타이틀
 pygame.display.set_caption("피하기 게임")
 
+#게임 폰트
+game_font = pygame.font.Font(None, 40)
+
 #게임 배경 및 이미지
 background = ImageResources('astro.png')
 
@@ -28,9 +32,7 @@ player.setPosition(screen.get_width()/2-(player.sprite_width),screen.get_height(
 enemy = ImageResources('rocket.png')
 enemy.setPosition(random.randint(0,screen.get_width() - enemy.sprite_width),10)
 
-
-#게임 폰트
-game_font = pygame.font.Font(None, 40)
+bgSound = BackgoundMusic('Deltarune - MEGALOVANIA.mp3')
 
 total_time = 10
 
@@ -59,9 +61,12 @@ def drawImage():
     screen.blit(background.sprite, (0,0))
     screen.blit(player.sprite, player.getPosition())
     screen.blit(enemy.sprite, enemy.getPosition())
+pygame.joystick.init()
 
+#게임 진행 루프
 running = True
-while 1:
+bgSound.play()
+while running:
     #초당 지정된 프레임 횟수동안 동작
     dt = clock.tick(60)
 
@@ -71,7 +76,7 @@ while 1:
         #화면 창을 닫을 때
         if event.type == pygame.QUIT:
             pygame.time.delay(2000)
-            pygame.quit()
+            running = False
         #키를 누르고 있을 때
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
@@ -82,9 +87,6 @@ while 1:
                 ypos -= set_speed
             elif event.key == pygame.K_DOWN:
                 ypos += set_speed
-            
-            if event.key == pygame.CONTROLLER_BUTTON_A:
-                print("A Button")
         #키를 떼었을 때
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
@@ -147,6 +149,9 @@ while 1:
         game_over = game_font.render("GAME OVER!!",True,bg_colors.bg_red)
         screen.blit(game_over,((screen.get_width() / 2) - (game_over.get_width() / 2),(screen.get_height()/2) - (game_over.get_height() / 2)))
         running = False
+        pygame.time.delay(2000)
 
     #갱신
     pygame.display.update()
+
+pygame.quit()
