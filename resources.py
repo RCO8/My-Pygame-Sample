@@ -27,10 +27,17 @@ class ImageResources:
 class SoundResources():
     def __init__(self, filename):
         self.sound = pygame.mixer.music.load('sound/'+filename)
-    def play(self):
-        pygame.mixer.music.play(1)
+        self.nowVolume = pygame.mixer.music.get_volume()
+    def play(self,cnt = 1):
+        pygame.mixer.music.play(cnt)
+    def stop(self,mode = 0):
+        if mode == 0:
+            pygame.mixer.music.pause()
+        elif mode == 1:
+            pygame.mixer.music.stop()
     def setVolume(self,fade):
-        pygame.mixer.music.set_volume(fade)
+        self.nowVolume += fade
+        pygame.mixer.music.set_volume(self.nowVolume)
 
 class BackgoundMusic(SoundResources):
     def __init__(self, filename):

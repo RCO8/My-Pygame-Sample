@@ -34,7 +34,6 @@ enemy.setPosition(random.randint(0,screen.get_width() - enemy.sprite_width),10)
 
 bgSound = BackgoundMusic('Deltarune - MEGALOVANIA.mp3')
 
-total_time = 10
 
 def limit(left,top,x1,x2,y1,y2):
     if left < x1:
@@ -50,6 +49,7 @@ def level(start, div, speed, index):
         if start > div * 1:
             speed = index[i]
 
+total_time = 10
 xpos = 0
 ypos = 0
 avoidCount = 0
@@ -61,7 +61,6 @@ def drawImage():
     screen.blit(background.sprite, (0,0))
     screen.blit(player.sprite, player.getPosition())
     screen.blit(enemy.sprite, enemy.getPosition())
-pygame.joystick.init()
 
 #게임 진행 루프
 running = True
@@ -75,7 +74,7 @@ while running:
     for event in pygame.event.get():
         #화면 창을 닫을 때
         if event.type == pygame.QUIT:
-            pygame.time.delay(2000)
+            bgSound.stop()
             running = False
         #키를 누르고 있을 때
         if event.type == pygame.KEYDOWN:
@@ -87,13 +86,18 @@ while running:
                 ypos -= set_speed
             elif event.key == pygame.K_DOWN:
                 ypos += set_speed
+            #볼륨 조절(테스트)
+            if event.key == pygame.K_KP8:
+                bgSound.setVolume(0.1)
+            elif event.key == pygame.K_KP2:
+                bgSound.setVolume(-0.1)
         #키를 떼었을 때
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
                 xpos = 0
             if event.key == pygame.K_UP or event.key == pygame.K_DOWN:
                 ypos = 0
-            
+        
 
     #게임 데이터 업데이트
     
@@ -149,9 +153,9 @@ while running:
         game_over = game_font.render("GAME OVER!!",True,bg_colors.bg_red)
         screen.blit(game_over,((screen.get_width() / 2) - (game_over.get_width() / 2),(screen.get_height()/2) - (game_over.get_height() / 2)))
         running = False
-        pygame.time.delay(2000)
 
     #갱신
     pygame.display.update()
 
+pygame.time.delay(2000)
 pygame.quit()
