@@ -86,11 +86,6 @@ while running:
                 ypos -= set_speed
             elif event.key == pygame.K_DOWN:
                 ypos += set_speed
-            #볼륨 조절(테스트)
-            if event.key == pygame.K_KP8:
-                bgSound.setVolume(0.1)
-            elif event.key == pygame.K_KP2:
-                bgSound.setVolume(-0.1)
         #키를 떼었을 때
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
