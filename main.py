@@ -32,7 +32,7 @@ player.setPosition(screen.get_width()/2-(player.sprite_width),screen.get_height(
 enemy = ImageResources('rocket.png')
 enemy.setPosition(random.randint(0,screen.get_width() - enemy.sprite_width),10)
 
-bgSound = BackgoundMusic('Deltarune - MEGALOVANIA.mp3')
+#bgSound = BackgoundMusic('Deltarune - MEGALOVANIA.mp3')
 
 
 def limit(left,top,x1,x2,y1,y2):
@@ -64,7 +64,6 @@ def drawImage():
 
 #게임 진행 루프
 running = True
-bgSound.play()
 while running:
     #초당 지정된 프레임 횟수동안 동작
     dt = clock.tick(60)
@@ -74,7 +73,6 @@ while running:
     for event in pygame.event.get():
         #화면 창을 닫을 때
         if event.type == pygame.QUIT:
-            bgSound.stop()
             running = False
         #키를 누르고 있을 때
         if event.type == pygame.KEYDOWN:

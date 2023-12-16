@@ -1,11 +1,11 @@
-import pygame
-
+from pygame import transform, image
+from pygame import mixer
 class ImageResources:
     sprite_xpos = 0
     sprite_ypos = 0
     sprite_count = 0
     def __init__(self,filename):
-        self.sprite = pygame.image.load('sprite/'+filename)
+        self.sprite = image.load('sprite/'+filename)
         self.sprite_size = self.sprite.get_rect().size
         self.sprite_width = self.sprite.get_width()
         self.sprite_height = self.sprite.get_height()
@@ -21,18 +21,18 @@ class ImageResources:
     # 스프라이트 회전
     def setRotation(self,dir):
         self.sprite_direction = dir
-        self.sprite = pygame.transform.rotate(self.sprite, self.sprite_direction)
+        self.sprite = transform.rotate(self.sprite, self.sprite_direction)
     def jumpRotation(self,dir):
         self.sprite_direction += dir
-        self.sprite = pygame.transform.rotate(self.sprite, self.sprite_direction)
+        self.sprite = transform.rotate(self.sprite, self.sprite_direction)
     # 스프라이트 확대축소
     def setScale(self,x,y):
-        self.sprite = pygame.transform.scale(self.sprite,(self.sprite_width*x,self.sprite_height*y))
+        self.sprite = transform.scale(self.sprite,(self.sprite_width*x,self.sprite_height*y))
         #증감된 크기를 갱신
         self.sprite_width *= x
         self.sprite_height *= y
     def setScale(self,x):
-        self.sprite = pygame.transform.scale(self.sprite,(self.sprite_width*x,self.sprite_height*x))
+        self.sprite = transform.scale(self.sprite,(self.sprite_width*x,self.sprite_height*x))
         self.sprite_width *= x
         self.sprite_height *= x
         
@@ -46,18 +46,18 @@ class ImageResources:
         
 class SoundResources():
     def __init__(self, filename):
-        self.sound = pygame.mixer.music.load('sound/'+filename)
-        self.nowVolume = pygame.mixer.music.get_volume()
+        self.sound = mixer.music.load('sound/'+filename)
+        self.nowVolume = mixer.music.get_volume()
     def play(self,cnt = 1):
-        pygame.mixer.music.play(cnt)
+        mixer.music.play(cnt)
     def stop(self,mode = 0):
         if mode == 0:
-            pygame.mixer.music.pause()
+            mixer.music.pause()
         elif mode == 1:
-            pygame.mixer.music.stop()
+            mixer.music.stop()
     def setVolume(self,fade):
         self.nowVolume += fade
-        pygame.mixer.music.set_volume(self.nowVolume)
+        mixer.music.set_volume(self.nowVolume)
 
 class BackgoundMusic(SoundResources):
     def __init__(self, filename):
@@ -68,4 +68,4 @@ class BackgoundMusic(SoundResources):
     
     # 점점 사라지게
     def fadeout(self):
-        pygame.mixer.music.fadeout()
+        mixer.music.fadeout()
