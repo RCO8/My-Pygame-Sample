@@ -1,5 +1,6 @@
 from pygame import transform, image
 from pygame import mixer
+from pygame import Rect
 class ImageResources:
     sprite_xpos = 0
     sprite_ypos = 0
@@ -9,6 +10,7 @@ class ImageResources:
         self.sprite_size = self.sprite.get_rect().size
         self.sprite_width = self.sprite.get_width()
         self.sprite_height = self.sprite.get_height()
+        self.sprite_clip = Rect(0,0,self.sprite_width,self.sprite_height)
         self.sprite_direction = 0.0
     # 스프라이트를 해당 좌표로 이동
     def setPosition(self,x,y):
@@ -35,7 +37,10 @@ class ImageResources:
         self.sprite = transform.scale(self.sprite,(self.sprite_width*x,self.sprite_height*x))
         self.sprite_width *= x
         self.sprite_height *= x
-        
+
+    #스프라이트 일부 출력
+    def setClipping(self,x,y,w,h):
+        self.sprite_clip = Rect(x,y,w,h)
         
     # 현재 좌표 반환
     def getPosition(self):

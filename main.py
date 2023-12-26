@@ -2,8 +2,7 @@
 import pygame
 import random
 import bg_colors
-from resources import ImageResources
-from resources import BackgoundMusic
+from resources import ImageResources, BackgoundMusic
 
 pygame.init()
 
@@ -32,23 +31,6 @@ player.setPosition(screen.get_width()/2-(player.sprite_width),screen.get_height(
 enemy = ImageResources('rocket.png')
 enemy.setPosition(random.randint(0,screen.get_width() - enemy.sprite_width),10)
 
-#bgSound = BackgoundMusic('Deltarune - MEGALOVANIA.mp3')
-
-
-def limit(left,top,x1,x2,y1,y2):
-    if left < x1:
-        left = x1
-    elif left > x2:
-        left = x2
-    if top < y1:
-        top = y1
-    elif top > y2:
-        top = y2
-def level(start, div, speed, index):
-    for i in index:
-        if start > div * 1:
-            speed = index[i]
-
 total_time = 10
 xpos = 0
 ypos = 0
@@ -59,8 +41,17 @@ falling = 3
 def drawImage():
     screen.fill(bg_colors.bg_azure)
     screen.blit(background.sprite, (0,0))
-    screen.blit(player.sprite, player.getPosition())
+    screen.blit(player.sprite, player.getPosition(), player.sprite_clip)
     screen.blit(enemy.sprite, enemy.getPosition())
+
+    #카운터
+    elapsed_time = (pygame.time.get_ticks()) / 1000
+    timer = game_font.render("time : "+str(int(elapsed_time)),True,bg_colors.bg_white)
+    screen.blit(timer,(screen.get_width()-timer.get_width()-10,10))
+
+    #텍스트
+    totalScore = game_font.render("score : "+str(avoidCount),True,bg_colors.bg_azure)
+    screen.blit(totalScore,(10,10))
 
 #게임 진행 루프
 running = True
@@ -90,6 +81,9 @@ while running:
                 xpos = 0
             if event.key == pygame.K_UP or event.key == pygame.K_DOWN:
                 ypos = 0
+        #마우스 체크
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            print(pygame.mouse.get_pos())
         
 
     #게임 데이터 업데이트
@@ -124,22 +118,6 @@ while running:
     enemy_rect.top = enemy.sprite_ypos
 
     drawImage()
-
-    #카운터
-    elapsed_time = (pygame.time.get_ticks()) / 1000
-    timer = game_font.render("time : "+str(int(elapsed_time)),True,bg_colors.bg_white)
-    screen.blit(timer,(screen.get_width()-timer.get_width()-10,10))
-    
-    if elapsed_time > 50:
-        falling = 7
-    elif elapsed_time > 25:
-        falling = 5
-    elif elapsed_time > 10:
-        falling = 4
-
-    #텍스트
-    totalScore = game_font.render("score : "+str(avoidCount),True,bg_colors.bg_azure)
-    screen.blit(totalScore,(10,10))
     
     #충돌 체크
     if player_rect.colliderect(enemy_rect):
@@ -150,5 +128,5 @@ while running:
     #갱신
     pygame.display.update()
 
-pygame.time.delay(2000)
+pygame.time.delay(1000)
 pygame.quit()
